@@ -105,7 +105,7 @@ const ThreatCard: React.FC<ThreatCardProps> = ({ threat, compact = false, classN
         toast({
           title: "Threat Resolved",
           description: `The ${name} threat has been successfully mitigated`,
-          variant: "success",
+          variant: "default", // Changed from "success" to "default" to fix the type error
         });
       }, 3000);
     }, 1500);
