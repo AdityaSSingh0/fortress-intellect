@@ -71,7 +71,7 @@ const SecurityGraph: React.FC<SecurityGraphProps> = ({
       case 'area':
         return (
           <ResponsiveContainer width={`${width}%`} height={height} style={{ opacity, transition }}>
-            {title && <h4 className="text-sm font-medium text-gray-300 mb-2">{title}</h4>}
+            {title && <div className="text-sm font-medium text-gray-300 mb-2">{title}</div>}
             <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
               {showGrid && <CartesianGrid strokeDasharray="3 3" stroke="rgba(59, 130, 246, 0.2)" />}
               <XAxis 
@@ -113,68 +113,72 @@ const SecurityGraph: React.FC<SecurityGraphProps> = ({
       case 'pie':
         return (
           <ResponsiveContainer width={`${width}%`} height={height} style={{ opacity, transition }}>
-            {title && <h4 className="text-sm font-medium text-gray-300 mb-2">{title}</h4>}
-            <PieChart>
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                outerRadius={90}
-                fill="#8884d8"
-                dataKey={yKey}
-                nameKey={xKey}
-              >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-                ))}
-              </Pie>
-              <Tooltip
-                contentStyle={{ 
-                  backgroundColor: '#1E293B', 
-                  borderColor: 'rgba(59, 130, 246, 0.3)',
-                  color: '#F9FAFB',
-                  borderRadius: '4px',
-                  fontSize: '12px',
-                }}
-              />
-              {!hideLegend && <Legend wrapperStyle={{ fontSize: '12px', color: '#D1D5DB' }} />}
-            </PieChart>
+            <div>
+              {title && <div className="text-sm font-medium text-gray-300 mb-2">{title}</div>}
+              <PieChart>
+                <Pie
+                  data={data}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={90}
+                  fill="#8884d8"
+                  dataKey={yKey}
+                  nameKey={xKey}
+                >
+                  {data.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{ 
+                    backgroundColor: '#1E293B', 
+                    borderColor: 'rgba(59, 130, 246, 0.3)',
+                    color: '#F9FAFB',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                  }}
+                />
+                {!hideLegend && <Legend wrapperStyle={{ fontSize: '12px', color: '#D1D5DB' }} />}
+              </PieChart>
+            </div>
           </ResponsiveContainer>
         );
         
       case 'bar':
         return (
           <ResponsiveContainer width={`${width}%`} height={height} style={{ opacity, transition }}>
-            {title && <h4 className="text-sm font-medium text-gray-300 mb-2">{title}</h4>}
-            <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              {showGrid && <CartesianGrid strokeDasharray="3 3" stroke="rgba(59, 130, 246, 0.2)" />}
-              <XAxis 
-                dataKey={xKey} 
-                tick={{ fill: '#9CA3AF', fontSize: 10 }} 
-                axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
-              />
-              <YAxis 
-                tick={{ fill: '#9CA3AF', fontSize: 10 }} 
-                axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
-              />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: '#1E293B', 
-                  borderColor: 'rgba(59, 130, 246, 0.3)',
-                  color: '#F9FAFB',
-                  borderRadius: '4px',
-                  fontSize: '12px',
-                }} 
-              />
-              {!hideLegend && <Legend wrapperStyle={{ fontSize: '12px', color: '#D1D5DB' }} />}
-              <Bar dataKey={yKey} fill={colors[0]}>
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-                ))}
-              </Bar>
-            </BarChart>
+            <div>
+              {title && <div className="text-sm font-medium text-gray-300 mb-2">{title}</div>}
+              <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                {showGrid && <CartesianGrid strokeDasharray="3 3" stroke="rgba(59, 130, 246, 0.2)" />}
+                <XAxis 
+                  dataKey={xKey} 
+                  tick={{ fill: '#9CA3AF', fontSize: 10 }} 
+                  axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
+                />
+                <YAxis 
+                  tick={{ fill: '#9CA3AF', fontSize: 10 }} 
+                  axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#1E293B', 
+                    borderColor: 'rgba(59, 130, 246, 0.3)',
+                    color: '#F9FAFB',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                  }} 
+                />
+                {!hideLegend && <Legend wrapperStyle={{ fontSize: '12px', color: '#D1D5DB' }} />}
+                <Bar dataKey={yKey} fill={colors[0]}>
+                  {data.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </div>
           </ResponsiveContainer>
         );
         
@@ -182,36 +186,38 @@ const SecurityGraph: React.FC<SecurityGraphProps> = ({
       default:
         return (
           <ResponsiveContainer width={`${width}%`} height={height} style={{ opacity, transition }}>
-            {title && <h4 className="text-sm font-medium text-gray-300 mb-2">{title}</h4>}
-            <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              {showGrid && <CartesianGrid strokeDasharray="3 3" stroke="rgba(59, 130, 246, 0.2)" />}
-              <XAxis 
-                dataKey={xKey} 
-                tick={{ fill: '#9CA3AF', fontSize: 10 }} 
-                axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
-              />
-              <YAxis 
-                tick={{ fill: '#9CA3AF', fontSize: 10 }} 
-                axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
-              />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: '#1E293B', 
-                  borderColor: 'rgba(59, 130, 246, 0.3)',
-                  color: '#F9FAFB',
-                  borderRadius: '4px',
-                  fontSize: '12px',
-                }} 
-              />
-              {!hideLegend && <Legend wrapperStyle={{ fontSize: '12px', color: '#D1D5DB' }} />}
-              <Line 
-                type="monotone" 
-                dataKey={yKey} 
-                stroke={colors[0]} 
-                strokeWidth={2}
-                dot={{ stroke: colors[0], strokeWidth: 2, fill: '#1F2937' }} 
-              />
-            </LineChart>
+            <div>
+              {title && <div className="text-sm font-medium text-gray-300 mb-2">{title}</div>}
+              <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                {showGrid && <CartesianGrid strokeDasharray="3 3" stroke="rgba(59, 130, 246, 0.2)" />}
+                <XAxis 
+                  dataKey={xKey} 
+                  tick={{ fill: '#9CA3AF', fontSize: 10 }} 
+                  axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
+                />
+                <YAxis 
+                  tick={{ fill: '#9CA3AF', fontSize: 10 }} 
+                  axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#1E293B', 
+                    borderColor: 'rgba(59, 130, 246, 0.3)',
+                    color: '#F9FAFB',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                  }} 
+                />
+                {!hideLegend && <Legend wrapperStyle={{ fontSize: '12px', color: '#D1D5DB' }} />}
+                <Line 
+                  type="monotone" 
+                  dataKey={yKey} 
+                  stroke={colors[0]} 
+                  strokeWidth={2}
+                  dot={{ stroke: colors[0], strokeWidth: 2, fill: '#1F2937' }} 
+                />
+              </LineChart>
+            </div>
           </ResponsiveContainer>
         );
     }

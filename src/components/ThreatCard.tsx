@@ -8,6 +8,7 @@ interface ThreatCardProps {
   threat: Threat;
   compact?: boolean;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const ThreatCard: React.FC<ThreatCardProps> = ({ threat, compact = false, className = '' }) => {

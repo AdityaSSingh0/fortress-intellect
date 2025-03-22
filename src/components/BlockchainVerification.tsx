@@ -7,6 +7,7 @@ import { useCounterAnimation } from '@/utils/animations';
 interface BlockchainVerificationProps {
   identity: BlockchainIdentity;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const BlockchainVerification: React.FC<BlockchainVerificationProps> = ({ 
