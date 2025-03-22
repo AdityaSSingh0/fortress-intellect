@@ -1,8 +1,9 @@
 
-import React from 'react';
-import { Shield, AlertTriangle, AlertCircle, Clock, CheckCircle2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Shield, AlertTriangle, AlertCircle, Clock, CheckCircle2, ExternalLink, Shield as ShieldIcon } from 'lucide-react';
 import { Threat } from '@/utils/mockData';
 import StatusBadge from './StatusBadge';
+import { useToast } from '@/hooks/use-toast';
 
 interface ThreatCardProps {
   threat: Threat;
@@ -11,8 +12,11 @@ interface ThreatCardProps {
   style?: React.CSSProperties;
 }
 
-const ThreatCard: React.FC<ThreatCardProps> = ({ threat, compact = false, className = '' }) => {
+const ThreatCard: React.FC<ThreatCardProps> = ({ threat, compact = false, className = '', style }) => {
   const { id, name, source, type, level, status, details, timestamp, ip } = threat;
+  const [isResponding, setIsResponding] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState(status);
+  const { toast } = useToast();
   
   const formatTime = (timestamp: string) => {
     const date = new Date(timestamp);
@@ -73,11 +77,45 @@ const ThreatCard: React.FC<ThreatCardProps> = ({ threat, compact = false, classN
     }
   };
   
-  const statusInfo = getStatusMapping(status);
+  const handleViewDetails = () => {
+    toast({
+      title: "Threat Details",
+      description: `Viewing detailed analysis for threat: ${name}`,
+      variant: "default",
+    });
+  };
+  
+  const handleRespond = () => {
+    setIsResponding(true);
+    
+    // Simulate response process
+    setTimeout(() => {
+      setCurrentStatus('mitigating');
+      
+      toast({
+        title: "Response Initiated",
+        description: `AI-CSF is responding to threat: ${name}`,
+        variant: "default",
+      });
+      
+      setTimeout(() => {
+        setCurrentStatus('resolved');
+        setIsResponding(false);
+        
+        toast({
+          title: "Threat Resolved",
+          description: `The ${name} threat has been successfully mitigated`,
+          variant: "success",
+        });
+      }, 3000);
+    }, 1500);
+  };
+  
+  const statusInfo = getStatusMapping(currentStatus);
   
   if (compact) {
     return (
-      <div className={`glass-panel hover-scale ${className}`}>
+      <div className={`glass-panel hover-scale ${className}`} style={style}>
         <div className="flex items-center justify-between p-3">
           <div className="flex items-center">
             <div className={`w-2 h-2 rounded-full ${getLevelColor(level)} mr-3`}></div>
@@ -90,7 +128,7 @@ const ThreatCard: React.FC<ThreatCardProps> = ({ threat, compact = false, classN
   }
   
   return (
-    <div className={`glass-panel hover-scale ${className}`}>
+    <div className={`glass-panel hover-scale ${className}`} style={style}>
       <div className="p-4">
         <div className="flex justify-between items-start mb-3">
           <h3 className="text-base font-medium text-white">{name}</h3>
@@ -127,9 +165,36 @@ const ThreatCard: React.FC<ThreatCardProps> = ({ threat, compact = false, classN
         <p className="text-sm text-gray-300 mb-3">{details}</p>
         
         <div className="flex justify-end gap-2 mt-2">
-          <button className="text-xs cyber-button py-1 px-3">Details</button>
-          <button className="text-xs cyber-button py-1 px-3 bg-cyber-blue-accent/20 border-cyber-blue-accent/40">
-            Respond
+          <button 
+            className="text-xs cyber-button py-1 px-3 flex items-center"
+            onClick={handleViewDetails}
+          >
+            <ExternalLink className="w-3 h-3 mr-1" />
+            Details
+          </button>
+          <button 
+            className={`text-xs cyber-button py-1 px-3 bg-cyber-blue-accent/20 border-cyber-blue-accent/40 flex items-center ${
+              isResponding || currentStatus === 'resolved' ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            onClick={handleRespond}
+            disabled={isResponding || currentStatus === 'resolved'}
+          >
+            {isResponding ? (
+              <>
+                <Clock className="w-3 h-3 mr-1 animate-spin" />
+                Responding...
+              </>
+            ) : currentStatus === 'resolved' ? (
+              <>
+                <CheckCircle2 className="w-3 h-3 mr-1" />
+                Resolved
+              </>
+            ) : (
+              <>
+                <ShieldIcon className="w-3 h-3 mr-1" />
+                Respond
+              </>
+            )}
           </button>
         </div>
       </div>

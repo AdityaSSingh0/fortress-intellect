@@ -71,42 +71,44 @@ const SecurityGraph: React.FC<SecurityGraphProps> = ({
       case 'area':
         return (
           <ResponsiveContainer width={`${width}%`} height={height} style={{ opacity, transition }}>
-            {title && <div className="text-sm font-medium text-gray-300 mb-2">{title}</div>}
-            <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-              {showGrid && <CartesianGrid strokeDasharray="3 3" stroke="rgba(59, 130, 246, 0.2)" />}
-              <XAxis 
-                dataKey={xKey} 
-                tick={{ fill: '#9CA3AF', fontSize: 10 }} 
-                axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
-              />
-              <YAxis 
-                tick={{ fill: '#9CA3AF', fontSize: 10 }} 
-                axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
-              />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: '#1E293B', 
-                  borderColor: 'rgba(59, 130, 246, 0.3)',
-                  color: '#F9FAFB',
-                  borderRadius: '4px',
-                  fontSize: '12px',
-                }} 
-              />
-              {!hideLegend && <Legend wrapperStyle={{ fontSize: '12px', color: '#D1D5DB' }} />}
-              <Area 
-                type="monotone" 
-                dataKey={yKey} 
-                stroke={colors[0]} 
-                fill={`url(#colorGradient)`} 
-                strokeWidth={2}
-              />
-              <defs>
-                <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={colors[0]} stopOpacity={0.4}/>
-                  <stop offset="95%" stopColor={colors[0]} stopOpacity={0}/>
-                </linearGradient>
-              </defs>
-            </AreaChart>
+            <div>
+              {title && <div className="text-sm font-medium text-gray-300 mb-2">{title}</div>}
+              <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                {showGrid && <CartesianGrid strokeDasharray="3 3" stroke="rgba(59, 130, 246, 0.2)" />}
+                <XAxis 
+                  dataKey={xKey} 
+                  tick={{ fill: '#9CA3AF', fontSize: 10 }} 
+                  axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
+                />
+                <YAxis 
+                  tick={{ fill: '#9CA3AF', fontSize: 10 }} 
+                  axisLine={{ stroke: 'rgba(59, 130, 246, 0.2)' }} 
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#1E293B', 
+                    borderColor: 'rgba(59, 130, 246, 0.3)',
+                    color: '#F9FAFB',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                  }} 
+                />
+                {!hideLegend && <Legend wrapperStyle={{ fontSize: '12px', color: '#D1D5DB' }} />}
+                <Area 
+                  type="monotone" 
+                  dataKey={yKey} 
+                  stroke={colors[0]} 
+                  fill={`url(#colorGradient)`} 
+                  strokeWidth={2}
+                />
+                <defs>
+                  <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={colors[0]} stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor={colors[0]} stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+              </AreaChart>
+            </div>
           </ResponsiveContainer>
         );
         
